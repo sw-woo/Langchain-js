@@ -1,0 +1,18 @@
+{
+	"name": "langchain-js",
+	"version": "1.0.0",
+	"description": "langchain.js introduce",
+	"main": "01_basic.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "sungwoo woo",
+	"license": "ISC",
+	"dependencies": {
+		"dotenv": "^16.3.1",
+		"faiss-node": "^0.5.1",
+		"langchain": "^0.0.187",
+		"openai": "^4.17.5"
+	},
+	"type": "module"
+}
