@@ -45,8 +45,9 @@ const chain = new ConversationChain({
 	llm: chat,
 });
 
+//나라 이름을 바꾸어 보면서 테스트를 진행해 보세용!
 const response = await chain.call({
-	input: "대한민국의 맛집에 음식 종류는 어떤게 있을까?",
+	input: "일본의 맛집에 음식 종류는 어떤게 있을까?",
 });
 
 const response2 = await chain.call({
