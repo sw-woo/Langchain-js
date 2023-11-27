@@ -7,7 +7,8 @@ import { OpenAI } from "langchain/llms/openai";
 import { PromptTemplate } from "langchain/prompts";
 import { LLMChain } from "langchain/chains";
 
-//openai 모델 선언부 temperature 속성은 0~1 까지의 값을 가질수 있고, 값이 낮으면 모델이 더 일관된 예측을 하게 되고 값이 높으면
+//openai 모델 선언부 apiKey에 OPENAIKEY 값을 넣어줍니다.
+//temperature 속성은 0~1 까지의 값을 가질수 있고, 값이 낮으면 모델이 더 일관된 예측을 하게 되고 값이 높으면
 //더 다양한 예측을 할 가능성이 있습니다.
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,
@@ -22,12 +23,12 @@ const template = `
 // 프롬프트 템플릿 적용
 const prompt = new PromptTemplate({ template, inputVariables: ["question"] });
 
-//LLMChain 모델과 프롬프트 넣어서 생성
+//LLMChain 객체에 모델과 프롬프트 넣어서 생성
 const chain = new LLMChain({ llm: openai, prompt });
 
 // LLMChain 객체 생성 및 결과 반환
 const result = await chain.call({
-	question: "오늘 무슨 음식을 먹을지 추천해주세요!",
+	question: "오늘 같이 화창한 날씨에 먹을만한 음식을 추천해주세요!",
 });
 
 //결과 출력
