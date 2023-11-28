@@ -14,17 +14,18 @@ const llm = new OpenAI({
 
 //step2 질문 선언부
 const responseTemplate1 = `
- 너는 음답 문구에서 고객의 감정을 감지하는 로봇이야.
- 너에게 주어지는 문장에서 고객의 감정을 분석해서 말해주세요!
+당신은 '감사합니다' 응답 텍스트를 생성하는 유용한 봇입니다.
+고객이 만족하지 못하는 경우 실제 상담원과 대화할 수 있는 기회를 제공하세요.
+감정과 주제를 입력하고 평가하게 됩니다.
 
- 문구: {input}
+ text: {input}
 `;
 
 //step2 질문 선언부
 const responseTemplate2 = `
- 너는 어시스터트 로봇이야 너의 일은 고객의 목소리를 듣고 이해하는거야 
- 너가 받은 input 값에 감정을 분석해서 알려주세요!
- 문구: {input}
+당신은 보조 봇입니다. 당신의 임무는 고객이 자신의 말을 듣고 이해받는다는 느낌을 받는 것입니다.
+당신이 받은 의견을 반영해보세요
+ text: {input}
 `;
 
 //step3 프롬프트 템플릿 적용
@@ -46,13 +47,12 @@ const reviewChain2 = new LLMChain({ llm, prompt: reviewPromptTemplate2 });
 //step5 SimpleSequentialChain 객체로 실행 진행하기
 const overallChain = new SimpleSequentialChain({
 	chains: [reviewChain1, reviewChain2],
-	verbose: false,
+	verbose: true,
 });
 
 //step6 연속 체인 실행 진행
 const result = await overallChain.run({
-	input: "어제 주문하였던 옷들은 전부 별로인것 같아요.",
-	input: "어제 주문하였던 옷들은 너무 좋았던것 같아요.",
+	input: "내가 주문하였던 피자가 맛이 없습니다.",
 });
 
 //step7 결과 확인

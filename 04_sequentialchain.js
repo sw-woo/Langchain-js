@@ -12,9 +12,12 @@ const llm = new OpenAI({
 });
 
 //step2 질문 선언부 입력 변수 2개 설정
-let template = `
- 너가 주문하였던 {dish_name} 그리고 너가 경험하였던 {experience}. 리뷰를 작성해주세요! : 
-`;
+// let template = `
+//  너가 주문하였던 {dish_name} 그리고 너가 경험하였던 {experience}. 리뷰를 작성해주세요! :
+// `;
+
+let template =
+	" you ordered {dish_name} and your experience was {experience}. Write a review";
 
 //step3 프롬프트 템플릿 적용
 let promptTemplate = new PromptTemplate({
@@ -26,11 +29,13 @@ let promptTemplate = new PromptTemplate({
 const reviewChain = new LLMChain({
 	llm,
 	prompt: promptTemplate,
-	outputKey: "review1",
+	outputKey:
+		"review" /** 첫번째 체인에서 시작되는 아웃풀을 LLM 에 전달하는 key값 설정 이후 다음 템플릿에 inputVariables로 집어 넣기 */,
 });
 
 //step2 질문 선언부 입력 변수 1개 설정
-template = "음식점에 주어진 리뷰를: {review}, 후속 댓글을 작성해주세요!";
+// template = "음식점에 주어진 리뷰를: {review}, 후속 댓글을 작성해주세요!";
+template = "Given the restaurant review: {review}, write a follow-up comment:";
 
 //step3 프롬프트 템플릿 적용
 promptTemplate = new PromptTemplate({
@@ -41,45 +46,45 @@ promptTemplate = new PromptTemplate({
 const commentChain = new LLMChain({
 	llm,
 	prompt: promptTemplate,
-	outputKey: "review2",
+	outputKey: "comment",
 });
 
-// template = "한문장으로 리뷰 요약 정리: \n\n {review}";
+template = "Summarise the review in one short sentence: \n\n {review}";
 
-// promptTemplate = new PromptTemplate({
-// 	template,
-// 	inputVariables: ["review"],
-// });
+promptTemplate = new PromptTemplate({
+	template,
+	inputVariables: ["review"],
+});
 
-// const summaryChain = new LLMChain({
-// 	llm,
-// 	prompt: promptTemplate,
-// 	outputKey: "요약",
-// });
+const summaryChain = new LLMChain({
+	llm,
+	prompt: promptTemplate,
+	outputKey: "summary",
+});
 
-// template = "Translate the summary to korean: \n \n {summary}";
-// promptTemplate = new PromptTemplate({
-// 	template,
-// 	inputVariables: ["summary"],
-// });
+template = "Translate the summary to korean: \n \n {summary}";
+promptTemplate = new PromptTemplate({
+	template,
+	inputVariables: ["summary"],
+});
 
-// const translationChain = new LLMChain({
-// 	llm,
-// 	prompt: promptTemplate,
-// 	outputKey: "korean_translate",
-// });
+const translationChain = new LLMChain({
+	llm,
+	prompt: promptTemplate,
+	outputKey: "korean_translate",
+});
 
 const overallChain = new SequentialChain({
 	// chains: [reviewChain, commentChain, summaryChain, translationChain],
-	chains: [reviewChain, commentChain],
-	inputVariables: ["dish_name", "experience", "review"],
-	outputVariables: ["review1", "review2"],
+	chains: [reviewChain, commentChain, summaryChain, translationChain],
+	inputVariables: ["dish_name", "experience"],
+	outputVariables: ["review", "comment", "summary", "korean_translate"],
 });
 
 const result = await overallChain.call({
-	dish_name: "피자",
-	experience: "맛있다.",
-	review: "위 내용에 대한 리뷰를 해주세요!",
+	dish_name: "Pizza Salami",
+	experience:
+		"It was good taste!" /** good or bad 로 넣어서 테스트 진행해 보기 */,
 });
 
 console.log(result);
