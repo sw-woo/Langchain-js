@@ -30,7 +30,7 @@ const chain = new RetrievalQAChain({
 
 // step5. RetrievalQAChain 비동기 실행 결고 res에 담기
 const res = await chain.call({
-	query: "음직점에서 아이들을 위한 키즈 메뉴가 있나요?",
+	query: "음직점의 고객들이 자주 찾는 테이블이나 좌석은 어디인가요?",
 });
 
 // step6. 결과 부분 출력

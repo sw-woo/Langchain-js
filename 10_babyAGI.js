@@ -13,9 +13,9 @@ const babyAGI = BabyAGI.fromLLM({
 		temperature: 0.7,
 	}),
 	vectorstore: vectorStore,
-	maxIterations: 3,
+	maxIterations: 10,
 });
 
 await babyAGI.call({
-	objective: "소설관련 블로그를 한국어로 5개만 작성해주세요!",
+	objective: "소설관련 블로그를 5개만 작성해주세요! translate to korean",
 });
