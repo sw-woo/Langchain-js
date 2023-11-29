@@ -4,6 +4,8 @@ config();
 
 import { OpenAI } from "langchain/llms/openai";
 import { PromptTemplate } from "langchain/prompts";
+
+//simpleSequentialChain , LLMChain 선언
 import { SimpleSequentialChain, LLMChain } from "langchain/chains";
 
 //step1 openai 모델 선언부
@@ -52,7 +54,7 @@ const overallChain = new SimpleSequentialChain({
 
 //step6 연속 체인 실행 진행
 const result = await overallChain.run({
-	input: "내가 주문하였던 피자가 맛이 없습니다.",
+	input: "내가 주문하였던 햄버거가 맛이 없습니다.",
 });
 
 //step7 결과 확인

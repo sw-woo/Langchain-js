@@ -1,6 +1,7 @@
 import { config } from "dotenv";
 config();
 
+// 랭체인 텍스트데이터를 가져오는 Loader 선언
 import { TextLoader } from "langchain/document_loaders/fs/text";
 
 //랭체인 characterTextSplitter 선언

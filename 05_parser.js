@@ -3,6 +3,7 @@ config();
 
 import { OpenAI } from "langchain/llms/openai";
 import { PromptTemplate } from "langchain/prompts";
+//json parsing을 도와주는 모듈(라이브러리) 선언
 import { StructuredOutputParser } from "langchain/output_parsers";
 
 // stpe1. parser 선언 설정
@@ -32,14 +33,14 @@ const input = await prompt.format({
 });
 console.log(input);
 
-const response = await model.call(input);
+const jsonresponse = await model.call(input);
 
 console.log("========json parse 최종 형태========\n");
-console.log(response);
+console.log(jsonresponse);
 
 // console.log(await parser.parse(response));
 
 //parser.parse()는 자바스크립트 오브젝트로 변환시켜주는 작업을 합니다.
-const jsonResponse = await parser.parse(response);
+const objectResponse = await parser.parse(jsonresponse);
 console.log("======== 자바스크립트 오브젝트(객체) 형태========\n");
-console.log(jsonResponse);
+console.log(objectResponse);
